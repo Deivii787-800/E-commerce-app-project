@@ -1,123 +1,123 @@
 from django.urls import path
-from . import views
+from .views import products, cart, accounts, orders, admin, home
 
 
 app_name = "virtualApp"
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", home.index, name="index"),
 
     path(
         "products/", 
-        views.product, 
+        products.product, 
         name="products"
         ),
 
     path(
         "<int:product_id>/", 
-        views.product_detail, 
+        products.product_detail, 
         name="product_detail"
         ),
 
     path(
         "post-products/", 
-        views.post_products, 
+        products.post_products, 
         name="post_products"
         ),
 
     path(
         "create-categorys/", 
-        views.create_category, 
+        products.create_category, 
         name="create_category"
         ),
 
     path(
         "signup/", 
-        views.signup, 
+        accounts.signup, 
         name="signup"
         ),
 
     path(
         "logout/", 
-        views.logout_view, 
+        accounts.logout_view, 
         name="logout"
         ),
 
     path(
         "login/", 
-        views.login_view, 
+        accounts.login_view, 
         name="login"
         ),
 
     path(
         "admin-panel/", 
-        views.admin_panel, 
+        admin.admin_panel, 
         name="admin_panel"
         ),
 
     path(
         "cart/", 
-        views.cart, 
+        cart.cart, 
         name="cart"
         ),
 
     path(
         "cart/add/<int:product_id>/", 
-        views.add_to_cart, 
+        cart.add_to_cart, 
         name="add_to_cart"
         ),
 
     path(
         "orders/",
-        views.order,
+        orders.order,
         name = "order"
     ),
 
     path(
         "checkout/",
-        views.checkout,
+        orders.checkout,
         name = "checkout"
     ),
 
     path(
         "order-detail/<int:order_id>",
-        views.order_detail,
+        orders.order_detail,
         name = "order_detail"
     ),
 
     path(
         "cart/delete/<int:item_id>",
-        views.remove_from_cart,
+        cart.remove_from_cart,
         name = "remove_from_cart"
     ),
 
     path(
         "cart/clear/",
-        views.clear_cart,
+        cart.clear_cart,
         name="clear_cart"
     ),
 
     path(
         "cart/decrease/<int:item_id>",
-        views.decrease_quantity,
+        cart.decrease_quantity,
         name = "decrease_quantity"
     ),
 
     path(
         "cart/increase/<int:item_id>",
-        views.increase_quantity,
+        cart.increase_quantity,
         name = "increase_quantity"
     ),
 
     path(
         "admin-panel/product/<int:product_id>/edit/",
-        views.edit_product,
+        admin.edit_product,
         name = "edit_product"
     ),
 
     path(
         "admin-panel/product/<int:product_id>/delete/",
-        views.delete_product,
+        admin.delete_product,
         name = "delete_product"
     )
 
