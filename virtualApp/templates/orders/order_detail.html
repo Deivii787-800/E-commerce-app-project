@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Pedido #{{ order.id }}</h1>
+
+    <p>
+        Estado: {{ order.get_status_display }}
+    </p>
+
+    <p>
+        Fecha: {{ order.created_at   }}
+    </p>
+
+    <hr>
+
+    {% for item in order.items.all %}
+
+    <div>
+
+        <h3>{{ item.product.name }}</h3>
+
+        <p>
+            Cantidad: {{ item.quantity }}
+        </p>
+
+        <p>
+            Precio unitario ${{ item.price }}
+        </p>
+
+        <p>
+            Subtotal:
+            ${{ item.price|floatformat:2 }}
+        </p>
+
+    </div>
+
+    {% endfor %}
+
+    <hr>
+
+    <h2>
+        Total: ${{ order.total }}
+    </h2>
+
+{% endblock %}

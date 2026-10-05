@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="">
+            Nombre de la categoria
+        </label>
+
+        <input type="text"
+        name="category_name"
+        placeholder="Consolas, Computadoras, Celulares ETC."
+        required>
+
+        <button type="submit">
+            Crear categoria
+        </button>
+    </form>
+{% endblock %}

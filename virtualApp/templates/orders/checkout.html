@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Checkout</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <h2>Datos del envio</h2>
+
+        <hr>
+
+        {{ form.as_p }}
+
+        <h2>Datos del pedido</h2>
+
+        {% for item in items %}
+            <div>
+                <strong>{{ item.product.name }}</strong>
+
+                <span>
+                    {{ item.quantity }} x {{ item.product.price }}
+                </span>
+
+                <span>
+                    Subtotal: {{ item.subtotal }}
+                </span>
+            </div>
+        {% endfor %}
+
+        <hr>
+
+        <h3>Total {{ total }}</h3>
+        
+        <button type="submit" >
+            Confirmar pedido
+        </button>
+    </form>
+
+    <a href="{% url 'virtualApp:cart' %}">
+        Volver al carrito
+    </a>
+{% endblock %}

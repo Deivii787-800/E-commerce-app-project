@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <p> {{ message }} </p>
+        {% endfor %}
+    {% endif %}
+
+
+    <h1>Mi carrito</h1>
+
+    {% if items %}
+
+        {% for item in items %}
+
+            <div>
+                <h3>{{ item.product.name }}</h3>
+
+                <p>
+                    Precio:
+                    ${{ item.product.price }}
+                </p>
+
+                <form 
+                    action="{% url 'virtualApp:decrease_quantity' item.id %}"
+                    method="post"
+                >
+                    {% csrf_token %}
+
+                    <button type="submit">-</button>
+                </form>
+
+                
+                <span>{{ item.quantity }}</span>
+
+                <form 
+                    action="{% url 'virtualApp:increase_quantity' item.id %}"
+                    method="post"
+                >
+                    {% csrf_token %}
+
+                    <button type="submit">+</button>
+                </form>
+
+
+                <p>
+                    Subtotal:
+                    ${{ item.subtotal}}
+                </p>
+
+                <form 
+                    method="post"
+                    action="{% url 'virtualApp:remove_from_cart' item.id %}"
+                >
+                    {% csrf_token %}
+
+                    <button type="submit">
+                        Eliminar
+                    </button>
+                </form>
+            </div>
+
+            <hr>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>Tu carrito está vacío.</p>
+
+    {% endif %}
+
+    {% if items %}
+        <form action="{% url 'virtualApp:checkout' %}" method="post">
+            {% csrf_token %}
+
+            <button type="submit">
+                Realizar pedido 
+            </button>
+        </form>
+
+        <form  method="post" action="{% url 'virtualApp:clear_cart' %}">
+            {% csrf_token %}
+
+            <button type="submit">
+                Vaciar carrito
+            </button>
+        </form>
+
+        <p>Subtotal: {{ total }}</p>
+    {% endif %}
+
+{% endblock %}

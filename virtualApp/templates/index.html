@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <nav>
+        {% if user.is_authenticated %}
+            <a href="{% url 'virtualApp:cart' %}">
+                Mi carrito
+            </a>
+        {% endif %}
+    </nav>
+
+    <p>Bienvenido <strong>{{ user.username }}</strong></p>
+    <h1>Mercadeo Arcano</h1>
+
+    <p>En esta E-Commerce app podras encontrar tus productos favoritos a precio de hot dog.</p>
+
+    <h3>Productos disponibles:</h3>
+    <a href="{% url 'virtualApp:products' %}">Productos</a>
+
+    <h3>Sube tu producto a la pagina</h3>
+    <a href="{% url 'virtualApp:post_products' %}">Sube tu producto</a>
+
+    <form action="">
+            {% if not user.is_authenticated %}
+                <h3>No tienes una cuenta? Crea una!</h3>
+                <a href="{% url 'virtualApp:signup' %}">Crea tu cuenta</a>
+
+                <h3>Ya tienes una cuenta? inicia sesion</h3>
+
+                <a href="{% url 'virtualApp:login' %}">Inicia sesion</a>
+
+            {% endif %}
+    </form>
+
+    {% if user.is_authenticated %}
+
+        <a href="{% url 'virtualApp:admin_panel' %}">Admin panel</a>
+
+        <form action="{% url 'virtualApp:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">
+                Cerrar sesion
+            </button>
+        </form>
+    {% endif %}
+{% endblock %}

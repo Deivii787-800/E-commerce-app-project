@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ product_form }}
+
+        <button type="submit">
+            Subir
+        </button>
+    </form>
+    <br>
+    <a href="{% url 'virtualApp:create_category' %}">Crea tu cateogria</a>
+{% endblock %}

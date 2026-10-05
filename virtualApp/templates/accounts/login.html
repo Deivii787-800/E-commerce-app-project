@@ -1,0 +1,18 @@
+<h2>Inicia sesion</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+
+    <button type="submit">
+        Inicia sesion
+    </button>
+</form>
+
+<form >
+    {% csrf_token %}
+
+    <a href="{% url 'virtualApp:signup' %}">
+        No tienes una cuenta? crea una!
+    </a>
+</form>

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <H2>Bienvenido a tu panel admin {{ user.username }}</H2>
+
+    <form action="{% url 'virtualApp:admin_panel' %}" method="get">
+        <input 
+            type="text"
+            name="q"
+            placeholder="Busca tus productos"
+            value="{{ query }}">
+    </form>
+
+    <h3>Mis productos</h3>
+    {{ total_products }}
+
+    <hr>
+
+    <h3>Disponibles</h3>
+    {{ available_products }}
+
+    <hr>
+
+    <h3>No disponibles</h3>
+    {{ unavailable_products }}
+
+    <hr>
+
+    <h3>Sin stock</h3>
+    {{ out_of_stock }}
+
+    <hr>
+
+    <h2>Baja stock</h2>
+    <strong>{{ low_stock }}</strong>
+
+    <hr>
+
+    {% for product in products %}
+        <div>
+            <h3>{{ product.name }}</h3>
+
+            <p>Precio: {{ product.price }}</p>
+
+            <p>Stock: {{ product.stock }}</p>
+
+            {% if product.stock == 0 %}
+                <p>Sin stock</p>
+            {% elif product.is_available %}
+                <p>Disponible</p>
+            {% else %}
+                No disponible
+            {% endif %}
+
+            <a href="{% url 'virtualApp:edit_product' product.id %}">
+                Editar
+            </a>
+
+            <br>
+
+            <a href="{% url 'virtualApp:delete_product' product.id %}">
+                Eliminar
+            </a>
+
+        </div>
+
+        <hr>
+    
+    {% empty %}
+        <p>No hay productos creados</p>
+
+    {% endfor %}
+
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+
+    <h3>Estas seguro de que quieres eliminar</h3>
+    <strong>{{ product.name }}?</strong>
+
+    <form method = "post">
+        {% csrf_token %}
+
+        <button type="submit">
+            Si, eliminar
+        </button>
+    </form>
+
+    <a href="{% url 'virtualApp:admin_panel' %}">
+        Cancelar
+    </a>
+
+{% endblock %}

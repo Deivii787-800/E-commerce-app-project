@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="post">
+    <h1>{{ alerta }}</h1>
+    {% csrf_token %}
+    {{ form }}
+
+    <button type="submit">Crear</button>
+</form>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>{{ product.name }}</h1>
+    <h2>{{ product.category }}</h2>
+
+    <p>
+        {{ product.description }}
+    </p>
+    
+    {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" width="75" height="75">
+    {% endif %}
+
+    <ul>
+        <li>
+            {{ product.price }}
+        </li>
+        <li>
+            {{ product.stock }}
+        </li>
+        <li>
+            {% if product.is_available and product.stock > 0 %}
+                <span>Disponible</span>
+            {% else %}
+                <span>No disponible: No hay suficiente stock</span>
+            {% endif %}
+        </li>
+        <li>
+            {{ product.creation_date }}
+        </li>
+        <li>
+            <p>Autor: {{ product.user.username }} </p>
+        </li>
+
+        <a href="{% url 'virtualApp:add_to_cart' product.id %}">
+            Agregar al carrito
+        </a>
+    </ul>
+
+
+{% endblock %}
