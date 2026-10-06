@@ -152,7 +152,7 @@ class Coupon(models.Model):
         unique=True
     )
 
-    dicount_type = models.CharField(
+    discount_type = models.CharField(
         max_length=20,
         choices=DISCOUNT_TYPES
     )
