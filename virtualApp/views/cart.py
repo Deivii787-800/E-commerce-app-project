@@ -10,6 +10,21 @@ def cart(request):
         user = request.user
     )
 
+    changes = update_cart_stock(cart)
+
+    for change in changes:
+        if change["type"] == "removed":
+            messages.warning(
+                request,
+                f'{change["product"]} fue eliminado del carrito porque ya no esta disponible.'
+            )
+
+        elif change["type"] == "reduced":
+            messages.warning(
+                request,
+                f'La cantidad de {change["product"]} fue reducida de {change["old_quantity"]} a {change["new_quantity"]} porque el stock disponible cambio.'
+            )
+
     items = cart.items.all()
 
     subtotal = sum(
@@ -22,6 +37,35 @@ def cart(request):
         "items":items,
         "total":subtotal
     })
+
+def update_cart_stock(cart):
+    items = cart.items.select_related("products")
+
+    changes = []
+
+    for item in items:
+        product = item.product
+
+        if not product.is_available or product.stock == 0:
+            changes.append({
+                "type": "removed",
+                "product": product.name
+            })
+            item.delete()
+            continue
+
+        if item.quantity > product.stock:
+            old_quantity = item.quantity
+            item.quantity = item.product.stock
+            item.save(update_fields = ["quantity"])
+
+            changes.append({
+                "type":"reduced",
+                "product": product.name,
+                "old_quantity": old_quantity,
+                "new_quantity": item.stock
+            })
+    return changes
 
 @login_required
 def add_to_cart(request, product_id):

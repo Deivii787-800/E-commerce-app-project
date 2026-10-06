@@ -139,3 +139,62 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name}"
+
+
+class Coupon(models.Model):
+    DISCOUNT_TYPES = [
+        ("percentage", "porcentaje"),
+        ("fixed", "valor fijo"),
+    ]
+
+    code = models.CharField(
+        max_length=50,
+        unique=True
+    )
+
+    dicount_type = models.CharField(
+        max_length=20,
+        choices=DISCOUNT_TYPES
+    )
+
+    value = models.DecimalField(
+        max_digits=10,
+        decimal_places = 2
+    )
+
+    minimum_purchase = models.DecimalField(
+        max_digits=10,
+        decimal_places = 2,
+        default=0
+    )
+
+    maximum_discount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    valid_from = models.DateTimeField()
+
+    valid_until = models.DateTimeField()
+
+    usage_limit = models.PositiveBigIntegerField(
+        null=True,
+        blank=True
+    )
+
+    used_count = models.PositiveIntegerField(
+        default=0
+    )
+
+    is_active = models.BooleanField(
+        default=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return self.code
